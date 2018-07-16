@@ -53,7 +53,7 @@ Here's the one for [JavaScript](https://github.com/auxcalibur/javascript).
   - If you have internal state and/or refs, prefer `class Name extends Component` over normal functions (not arrow functions).
 
   ```jsx
-  // bad
+  // avoid
   const MyComponent = createClass({
     // ...
     render() {
@@ -61,7 +61,7 @@ Here's the one for [JavaScript](https://github.com/auxcalibur/javascript).
     }
   });
 
-  // good
+  // prefer
   class MyComponent extends Component {
     // ...
     render() {
@@ -73,14 +73,14 @@ Here's the one for [JavaScript](https://github.com/auxcalibur/javascript).
   - And if you don't have state or refs, prefer normal functions (not arrow functions) over classes:
 
   ```jsx
-  // bad
+  // avoid
   class Listing extends React.Component {
     render() {
       return <div>{this.props.hello}</div>;
     }
   }
 
-  // bad (relying on function name inference is discouraged)
+  // prefer
   const Listing = ({ hello }) => (
     <div>{hello}</div>
   );

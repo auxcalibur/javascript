@@ -19,11 +19,11 @@ Here's the one for [React](https://github.com/auxcalibur/javascript/react).
     > Why? This ensures that you can’t reassign your references, which can lead to bugs and difficult to comprehend code.
 
     ```javascript
-    // bad
+    // avoid
     var a = 1;
     var b = 2;
 
-    // good
+    // prefer
     const a = 1;
     const b = 2;
     ```
@@ -34,13 +34,13 @@ Here's the one for [React](https://github.com/auxcalibur/javascript/react).
     > Why? `let` is block-scoped rather than function-scoped like `var`.
 
     ```javascript
-    // bad
+    // avoid
     var count = 1;
     if (true) {
       count += 1;
     }
 
-    // good
+    // prefer
     let count = 1;
     if (true) {
       count += 1;
