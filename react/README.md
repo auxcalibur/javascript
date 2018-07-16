@@ -1,4 +1,4 @@
-# <React Style Guide />
+# React <Style Guide />
 
 > **Note**: this style guide is an accumulation of coding standards from different sources as well as my own inputs based on my experiences with React. This style guide can also be used in React Native for most of the part. 
 
