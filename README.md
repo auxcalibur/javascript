@@ -1,8 +1,8 @@
-# JavaScript
+# JavaScript Style Guide;
 
 A collection of JavaScript / React / React Native style guides
 
-> **Note**: this guide is an accumulation of coding standards from different sources (e.g. AirBnB, Google, etc.) as well as my own inputs based on my experiences with JavaScript and React.
+> **Note**: this style guide is an accumulation of coding standards from different sources (e.g. AirBnB, Google, etc.) as well as my own inputs based on my experiences with JavaScript and React.
 
 Here's the one for [React](https://github.com/auxcalibur/javascript/react).
 
@@ -40,13 +40,11 @@ Here's the one for [React](https://github.com/auxcalibur/javascript/react).
       count += 1;
     }
 
-    // good, use the let.
+    // good
     let count = 1;
     if (true) {
       count += 1;
     }
     ```
-
-**[^ back to top](#table-of-contents)**
 
 ... work-in-progress
