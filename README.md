@@ -10,6 +10,7 @@ Here's the one for [React](https://github.com/auxcalibur/javascript/react).
   1. [Source Files](#source-files)
   1. [References](#references)
   1. [Objects](#objects)
+  1. [Arrays](#arrays)
 
 ## Introduction
 
