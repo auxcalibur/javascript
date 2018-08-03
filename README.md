@@ -442,5 +442,109 @@ Here's the one for [React](https://github.com/auxcalibur/javascript/react).
     const [one, two] = arr;
     ```
 
+  <a name="destructuring--object-over-array"></a>
+  - Use object destructuring for multiple return values, not array destructuring.
+
+    > Why? You can add new properties over time or change the order of things without breaking call sites.
+
+    ```javascript
+    // avoid
+    function processInput(input) {
+      // ...
+      return [one, two, three, four];
+    }
+
+    // the caller needs to think about the order of return data
+    const [one, __, three] = processInput(input);
+
+    // prefer
+    function processInput(input) {
+      // ...
+      return { one, two, three, four };
+    }
+
+    // the caller selects only the data they need
+    const { one, three } = processInput(input);
+    ```
+
+## Strings
+
+  <a name="strings--quotes"></a>
+  - Use single quotes `''` for strings.
+
+    ```javascript
+    // avoid
+    const name = "Juan Dela Cruz";
+
+    // avoid - template literals should contain interpolation or newlines
+    const name = `Juan Dela Cruz`;
+
+    // prefer
+    const name = 'Juan Dela Cruz';
+    ```
+
+  <a name="strings--line-length"></a>
+  - Strings that cause the line to go over 100 characters should not be written across multiple lines using string concatenation.
+
+    > Why? Broken strings are painful to work with and make code less searchable.
+
+    ```javascript
+    // avoid
+    const longString = 'There is no one who loves or pursues or desires to obtain pain of itself, \
+    because it is pain, but because occasionally circumstances occur in which toil and pain \
+    can procure him some great pleasure.';
+
+    // avoid
+    const longString = 'There is no one who loves or pursues or desires to obtain pain of itself, ' +
+      'because it is pain, but because occasionally circumstances occur in which toil and pain ' +
+      'can procure him some great pleasure.';
+
+    // prefer
+    const longString = 'There is no one who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.';
+    ```
+
+  <a name="es6-template-literals"></a>
+  - When programmatically building up strings, use template strings instead of concatenation.
+
+    > Why? Template strings give you a readable, concise syntax with proper newlines and string interpolation features.
+
+    ```javascript
+    // avoid
+    function doIt(stuff) {
+      return 'Just do ' + stuff + '!';
+    }
+
+    // avoid
+    function doIt(stuff) {
+      return ['Just do ', stuff, '!'].join();
+    }
+
+    // avoid
+    function doIt(stuff) {
+      return `Just do ${ stuff }!`;
+    }
+
+    // prefer
+    function doIt(stuff) {
+      return `Just do ${stuff}!`;
+    }
+    ```
+
+  <a name="strings--eval">
+  - Never use `eval()` on a string, it opens too many vulnerabilities.
+
+  <a name="strings--escaping"></a>
+  - Do not unnecessarily escape characters in strings.
+
+    > Why? Backslashes harm readability, thus they should only be present when necessary.
+
+    ```javascript
+    // avoid
+    const string = '\'this\' \i\s \"quoted\"';
+
+    // prefer
+    const string = '\'this\' is "quoted"';
+    const string = `This is the '${stuff}'`;
+    ```
 
 Work-in-progress...
