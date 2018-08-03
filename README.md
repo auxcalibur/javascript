@@ -11,6 +11,7 @@ Here's the one for [React](https://github.com/auxcalibur/javascript/react).
   1. [References](#references)
   1. [Objects](#objects)
   1. [Arrays](#arrays)
+  1. [Destructuring](#destructuring)
 
 ## Introduction
 
@@ -399,6 +400,47 @@ Here's the one for [React](https://github.com/auxcalibur/javascript/react).
     ];
     ```
 
+## Destructuring
+
+  <a name="destructuring--object"></a>
+  - Use object destructuring when accessing and using multiple properties of an object.
+
+    > Why? Destructuring saves you from creating temporary references for those properties.
+
+    ```javascript
+    // avoid
+    function getData(data) {
+      const name = data.name;
+      const address = data.address;
+
+      return `${name} lives in ${address}`;
+    }
+
+    // prefer
+    function getData(data) {
+      const { name, address } = data;
+      return `${name} lives in ${address}`;
+    }
+
+    // prefer more
+    function getData({ name, address }) {
+      return `${name} lives in ${address}`;
+    }
+    ```
+
+  <a name="destructuring--array"></a>
+  - Use array destructuring
+
+    ```javascript
+    const arr = [1, 2, 3, 4];
+
+    // avoid
+    const one = arr[0];
+    const two = arr[1];
+
+    // prefer
+    const [one, two] = arr;
+    ```
 
 
 Work-in-progress...
