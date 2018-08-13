@@ -9,6 +9,7 @@ Here's the one for [React](https://github.com/jeffraux/javascript/react).
   1. [Introduction](#introduction)
   1. [Source Files](#source-files)
   1. [References](#references)
+  1. [Modules](#modules)
   1. [Objects](#objects)
   1. [Arrays](#arrays)
   1. [Destructuring](#destructuring)
@@ -69,6 +70,159 @@ Here's the one for [React](https://github.com/jeffraux/javascript/react).
     if (true) {
       name = 'Juan Dela Cruz';
     }
+    ```
+
+## Modules
+
+  <a name="modules--use-them"></a>
+  - Always use modules (`import`/`export`) over a non-standard module system. You can always transpile to your preferred module system.
+
+    > Why? Modules are the future, let’s start using the future now.
+
+    ```javascript
+    // avoid
+    const StyleGuide = require('./StyleGuide');
+    module.exports = StyleGuide.Modules;
+
+    // this is fine but...
+    import StyleGuide from './StyleGuide';
+    export default StyleGuide.Modules;
+
+    // prefer this
+    import { Modules } from './StyleGuide';
+    export default Modules;
+    ```
+
+  <a name="modules--no-wildcard"></a>
+  - Do not use wildcard imports.
+
+    > Why? This makes sure you have a single default export.
+
+    ```javascript
+    // avoid
+    import * as StyleGuide from './StyleGuide';
+
+    // prefer
+    import StyleGuide from './StyleGuide';
+    ```
+
+  <a name="modules--no-export-from-import"></a>
+  - And do not export directly from an import.
+
+    > Why? Although the one-liner is concise, having one clear way to import and one clear way to export makes things consistent.
+
+    ```javascript
+    // avoid
+    export { Modules as default } from './StyleGuide';
+
+    // prefer
+    import { Modules } from './StyleGuide';
+    export default Modules;
+    ```
+
+  <a name="modules--no-duplicate-imports"></a>
+  - Only import from a path in one place.
+
+    > Why? Having multiple lines that import from the same path can make code harder to maintain.
+
+    ```javascript
+    // avoid
+    import React from 'react';
+    // … some other imports … //
+    import { Component, PureComponent } from 'react';
+
+    // prefer
+    import React, { Component, PureComponent } from 'react';
+
+    // prefer
+    import React, {
+      Component,
+      PureComponent,
+    } from 'react';
+    ```
+
+  <a name="modules--no-mutable-exports"></a>
+  - Do not export mutable bindings.
+
+    > Why? Mutation should be avoided in general, but in particular when exporting mutable bindings. While this technique may be needed for some special cases, in general, only constant references should be exported.
+
+    ```javascript
+    // avoid
+    let number = 3;
+    export { number };
+
+    // prefer
+    const number = 3;
+    export { number };
+    ```
+
+  <a name="modules--prefer-default-export"></a>
+  - In modules with a single export, prefer default export over named export.
+
+    > Why? To encourage more files that only ever export one thing, which is better for readability and maintainability.
+
+    ```javascript
+    // bad
+    export function doThis() {}
+
+    // good
+    function doThis() {}
+    export default doThis;
+
+    // good
+    export default function doThis() {}
+    ```
+
+  <a name="modules--imports-first"></a>
+  - Put all `import`s above non-import statements.
+
+    > Why? Since `import`s are hoisted, keeping them all at the top prevents surprising behavior.
+
+    ```javascript
+    // avoid
+    import { Form, Field } from 'react-native-validate-form';
+    foo.init();
+    import HtmlPdfViewer from 'html-pdf-viewer';
+
+    // prefer
+    import { Form, Field } from 'react-native-validate-form';
+    import HtmlPdfViewer from 'html-pdf-viewer';
+
+    foo.init();
+    ```
+
+  <a name="modules--multiline-imports-over-newlines"></a>
+  - Multiline imports should be indented just like multiline array and object literals.
+
+    > Why? The curly braces follow the same indentation rules as every other curly brace block in the style guide, as do the trailing commas.
+
+    ```javascript
+    // avoid
+    import {firstName, secondName, thirdName, fourthName, fifthName} from './someComponent';
+
+    // prefer
+    import {
+      firstName,
+      secondName,
+      thirdName,
+      fourthName,
+      fifthName,
+    } from 'path';
+    ```
+
+  <a name="modules--no-webpack-loader-syntax"></a>
+  - Disallow Webpack loader syntax in module import statements.
+
+    > Why? Since using Webpack syntax in the imports couples the code to a module bundler. Prefer using the loader syntax in `webpack.config.js`.
+
+    ```javascript
+    // avoid
+    import fooSass from 'css!sass!foo.scss';
+    import barCss from 'style!css!bar.css';
+
+    // prefer
+    import fooSass from 'foo.scss';
+    import barCss from 'bar.css';
     ```
 
 ## Objects
@@ -1131,5 +1285,7 @@ Here's the one for [React](https://github.com/jeffraux/javascript/react).
       piece() { return 2; }
     }
     ```
+
+
 
 Work-in-progress...
