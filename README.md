@@ -15,6 +15,7 @@ Here's the one for [React](https://github.com/jeffraux/javascript/react).
   1. [String](#string)
   1. [Functions](#functions)
   1. [Arrow Functions](#arrow-functions)
+  1. [Classes & Constructors](#classes--constructors)
 
 ## Introduction
 
@@ -970,6 +971,165 @@ Here's the one for [React](https://github.com/jeffraux/javascript/react).
     (foo) => (
       bar
     )
+    ```
+
+## Classes & Constructors
+
+  <a name="constructors--use-class"></a>
+  - Always use `class`. Avoid manipulating `prototype` directly.
+
+    > Why? `class` syntax is more concise and easier to reason about.
+
+    ```javascript
+    // avoid
+    function Sample(arr = []) {
+      this.sample = [...arr];
+    }
+    Sample.prototype.pop = function () {
+      const value = this.sample[0];
+      this.sample.splice(0, 1);
+      return value;
+    };
+
+    // prefer
+    class Sample {
+      constructor(arr = []) {
+        this.sample = [...arr];
+      }
+      pop() {
+        const value = this.sample[0];
+        this.sample.splice(0, 1);
+        return value;
+      }
+    }
+    ```
+
+  <a name="constructors--extends"></a>
+  - Use `extends` for inheritance.
+
+    > Why? It is a built-in way to inherit prototype functionality without breaking `instanceof`.
+
+    ```javascript
+    // avoid
+    const inherits = require('inherits');
+    function Sample(items) {
+      List.apply(this, items);
+    }
+    inherits(Sample, List);
+    Sample.prototype.peek = function () {
+      return this.list[0];
+    };
+
+    // prefer
+    class Sample extends List {
+      peek() {
+        return this.list[0];
+      }
+    }
+    ```
+
+  <a name="constructors--chaining"></a>
+  - Methods can return `this` to help with method chaining.
+
+    ```javascript
+    // avoid
+    Pirate.prototype.eat = function () {
+      this.jumping = true;
+      return true;
+    };
+
+    Pirate.prototype.setCrewName = function (name) {
+      this.name = name;
+    };
+
+    const luffy = new Pirate();
+    luffy.eat(); // => true
+    luffy.setCrewName('strawhats'); // => undefined
+
+    // prefer
+    class Pirate {
+      eat() {
+        this.eating = true;
+        return this;
+      }
+
+      setCrewName(name) {
+        this.name = name;
+        return this;
+      }
+    }
+
+    const luffy = new Pirate();
+
+    luffy.eat()
+      .setCrewName('strawhats');
+    ```
+
+  <a name="constructors--tostring"></a>
+  - It’s okay to write a custom `toString()` method, just make sure it works successfully and causes no side effects.
+
+    ```javascript
+    class Pirate {
+      constructor(options = {}) {
+        this.powers = options.powers || 'muggle';
+      }
+
+      getDevilFruit() {
+        return this.powers;
+      }
+
+      toString() {
+        return `Pirate - ${this.getDevilFruit()}`;
+      }
+    }
+    ```
+
+  <a name="constructors--no-useless"></a>
+  - Classes have a default constructor if one is not specified. An empty constructor function or one that just delegates to a parent class is unnecessary.
+
+    ```javascript
+    // avoid
+    class Pirate {
+      constructor() {}
+
+      getDevilFruit() {
+        return this.powers;
+      }
+    }
+
+    // avoid
+    class Luffy extends Pirate {
+      constructor(...args) {
+        super(...args);
+      }
+    }
+
+    // prefer
+    class Luffy extends Pirate {
+      constructor(...args) {
+        super(...args);
+        this.powers = 'Gomu Gomu';
+      }
+    }
+    ```
+
+  <a name="classes--no-duplicate-members"></a>
+  - Avoid duplicate class members.
+
+    > Why? Duplicate class member declarations will silently prefer the last one - having duplicates is almost certainly a bug.
+
+    ```javascript
+    // avoid
+    class Pirate {
+      one() { return 1; }
+      one() { return 2; }
+    }
+
+    // prefer
+    class Pirate {
+      one() { return 1; }
+      piece() { return 2; }
+    }
     ```
 
 Work-in-progress...
