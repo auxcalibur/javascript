@@ -2,7 +2,7 @@
 
 A collection of JavaScript / React / React Native style guides
 
-Here's the one for [React](https://github.com/auxcalibur/javascript/react).
+Here's the one for [React](https://github.com/jeffraux/javascript/react).
 
 ## Table of Contents
 
@@ -14,6 +14,7 @@ Here's the one for [React](https://github.com/auxcalibur/javascript/react).
   1. [Destructuring](#destructuring)
   1. [String](#string)
   1. [Functions](#functions)
+  1. [Arrow Functions](#arrow-functions)
 
 ## Introduction
 
@@ -810,6 +811,165 @@ Here's the one for [React](https://github.com/auxcalibur/javascript/react).
       bar,
       baz,
     );
+    ```
+
+## Arrow Functions
+
+  <a name="arrows--use-them"></a>
+  - When you must use an anonymous function (as when passing an inline callback), use arrow function notation.
+
+    > Why? It creates a version of the function that executes in the context of `this`, which is usually what you want, and is a more concise syntax.
+
+    > Why not? If you have a fairly complicated function, you might move that logic out into its own named function expression.
+
+    ```javascript
+    // avoid
+    [1, 2, 3].map(function (x) {
+      const y = 1;
+      return x * y;
+    });
+
+    // prefer
+    [1, 2, 3].map((x) => {
+      const y = 1;
+      return x * y;
+    });
+    ```
+
+  <a name="arrows--implicit-return"></a>
+  - If the function body consists of a single statement returning an [expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Expressions) without side effects, omit the braces and use the implicit return. Otherwise, keep the braces and use a `return` statement.
+
+    > Why? Syntactic sugar. It reads well when multiple functions are chained together.
+
+    ```javascript
+    // avoid
+    [1, 2, 3].map(item => {
+      const plusOne = item + 1;
+      `No return statement: ${plusOne}.`;
+    });
+
+    // prefer
+    [1, 2, 3].map(item => `This line automatically returns: ${item}.`);
+
+    // prefer
+    [1, 2, 3].map((item) => {
+      const plusOne = item + 1;
+      return `Multiline should have a return satement: ${plusOne}.`;
+    });
+
+    // prefer
+    [1, 2, 3].map((item, index) => ({
+      [index]: item,
+    }));
+
+    // No implicit return with side effects
+    function foo(callback) {
+      const val = callback();
+      if (val === true) {
+        // Do something if callback returns true
+      }
+    }
+
+    let bool = false;
+
+    // avoid
+    foo(() => bool = true);
+
+    // prefer
+    foo(() => {
+      bool = true;
+    });
+    ```
+
+  <a name="arrows--paren-wrap"></a>
+  - In case the expression spans over multiple lines, wrap it in parentheses for better readability.
+
+    > Why? It shows clearly where the function starts and ends.
+
+    ```javascript
+    // avoid
+    [1, 2, 3].map(number => myObject.prototype.hasOwnProperty.call(
+        magic,
+        number,
+      )
+    );
+
+    // prefer
+    [1, 2, 3].map(number => (
+      myObject.prototype.hasOwnProperty.call(
+        magic,
+        number,
+      )
+    ));
+    ```
+
+  <a name="arrows--one-arg-parens"></a>
+  - If your function takes a single argument and doesn’t use braces, omit the parentheses. Otherwise, always include parentheses around arguments for clarity and consistency. Note: it is also acceptable to always use parentheses.
+
+    > Why? Less visual clutter.
+
+    ```javascript
+    // avoid
+    [1, 2, 3].map((number) => number + 1);
+
+    // prefer
+    [1, 2, 3].map(number => number + 1);
+
+    // prefer - if the line is too long do not include it in the same line as `.map()`
+    [1, 2, 3].map(number => (
+      `There is no one who loves or pursues or desires to obtain pain of itself. Here's the number though: ${number}.`
+    ));
+
+    // avoid
+    [1, 2, 3].map(x => {
+      const y = 1;
+      return x * y;
+    });
+
+    // prefer
+    [1, 2, 3].map((x) => {
+      const y = 1;
+      return x * y;
+    });
+    ```
+
+  <a name="arrows--confusing"></a>
+  - Avoid confusing arrow function syntax (`=>`) with comparison operators (`<=`, `>=`).
+
+    ```javascript
+    // avoid
+    const numberValue = number => number.value >= 101 ? 'over' : 'under';
+
+    // avoid
+    const numberValue = (number) => number.value >= 101 ? 'over' : 'under';
+
+    // prefer
+    const numberValue = number => (number.value >= 101 ? 'over' : 'under');
+
+    // prefer
+    const numberValue = (number) => {
+      const { value } = number;
+      return value >= 101 ? 'over' : 'under';
+    };
+    ```
+
+  <a name="whitespace--implicit-arrow-linebreak"></a>
+  - Enforce the location of arrow function bodies with implicit returns.
+
+    ```javascript
+    // avoid these
+    (foo) =>
+      bar;
+
+    (foo) =>
+      (bar);
+
+    // prefer these
+    (foo) => bar;
+    (foo) => (bar);
+    (foo) => (
+      bar
+    )
     ```
 
 Work-in-progress...
