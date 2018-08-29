@@ -4,6 +4,8 @@ A collection of JavaScript / React / React Native style guides
 
 Here's the one for [React](https://github.com/jeffraux/javascript/react).
 
+> NOTE: This is still a work-in-progress. Everyone can contribute just send a pull request. ;)
+
 ## Table of Contents
 
   1. [Introduction](#introduction)
@@ -1285,7 +1287,3 @@ Here's the one for [React](https://github.com/jeffraux/javascript/react).
       piece() { return 2; }
     }
     ```
-
-
-
-Work-in-progress...
