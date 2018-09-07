@@ -18,7 +18,7 @@ Here's the one for [React](https://github.com/jeffraux/javascript/react).
   1. [String](#string)
   1. [Functions](#functions)
   1. [Arrow Functions](#arrow-functions)
-  1. [Classes & Constructors](#classes--constructors)
+  1. [Iterators & Generators](#iterators)
 
 ## Introduction
 
@@ -1286,4 +1286,116 @@ Here's the one for [React](https://github.com/jeffraux/javascript/react).
       one() { return 1; }
       piece() { return 2; }
     }
+    ```
+
+## Iterators and Generators
+
+  <a name="iterators--nope"></a>
+  - Don’t use iterators. Prefer JavaScript’s higher-order functions instead of loops like `for-in` or `for-of`.
+
+    > Why? This enforces our immutable rule. Dealing with pure functions that return values is easier to reason about than side effects.
+
+    > Use `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `some()` / ... to iterate over arrays, and `Object.keys()` / `Object.values()` / `Object.entries()` to produce arrays so you can iterate over objects.
+
+    ```javascript
+    const numbers = [1, 2, 3, 4, 5];
+
+    // avoid
+    let sum = 0;
+    for (let num of numbers) {
+      sum += num;
+    }
+    sum === 15;
+
+    // prefer
+    let sum = 0;
+    numbers.forEach((num) => {
+      sum += num;
+    });
+    sum === 15;
+
+    // best (use the functional force)
+    const sum = numbers.reduce((total, num) => total + num, 0);
+    sum === 15;
+
+    // avoid
+    const increasedByOne = [];
+    for (let i = 0; i < numbers.length; i++) {
+      increasedByOne.push(numbers[i] + 1);
+    }
+
+    // prefer
+    const increasedByOne = [];
+    numbers.forEach((num) => {
+      increasedByOne.push(num + 1);
+    });
+
+    // best (keeping it functional)
+    const increasedByOne = numbers.map(num => num + 1);
+    ```
+
+  <a name="generators--nope"></a><a name="11.2"></a>
+  - Don’t use generators for now.
+
+    > Why? They don’t transpile well to ES5.
+
+  <a name="generators--spacing"></a>
+  - If you must use generators, make sure their function signature is spaced properly.
+
+    > Why? `function` and `*` are part of the same conceptual keyword - `*` is not a modifier for `function`, `function*` is a unique construct, different from `function`.
+
+    ```javascript
+    // avoid
+    function * foo() {
+      // ...
+    }
+
+    // avoid
+    const bar = function * () {
+      // ...
+    };
+
+    // avoid
+    const baz = function *() {
+      // ...
+    };
+
+    // avoid
+    const quux = function*() {
+      // ...
+    };
+
+    // avoid
+    function*foo() {
+      // ...
+    }
+
+    // avoid
+    function *foo() {
+      // ...
+    }
+
+    // nope
+    function
+    *
+    foo() {
+      // ...
+    }
+
+    // nope
+    const wat = function
+    *
+    () {
+      // ...
+    };
+
+    // prefer
+    function* foo() {
+      // ...
+    }
+
+    // prefer
+    const foo = function* () {
+      // ...
+    };
     ```
